@@ -2,7 +2,8 @@
 
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { apiFetch } from "@/lib/api";
+
+const WHATSAPP_NUMBER = "918569934323";
 
 const initialState = {
   name: "",
@@ -21,18 +22,25 @@ export function LeadFormClient() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setStatus({ type: "loading", message: "Sending your inquiry..." });
+    setStatus({ type: "loading", message: "Opening WhatsApp..." });
 
-    try {
-      await apiFetch("/public/leads", {
-        method: "POST",
-        body: JSON.stringify(form)
-      });
-      setForm(initialState);
-      setStatus({ type: "success", message: "Inquiry submitted successfully. Lakshya will get back to you soon." });
-    } catch (error) {
-      setStatus({ type: "error", message: error.message });
-    }
+    const whatsappMessage = [
+      "New project inquiry",
+      "",
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Phone: ${form.phone || "Not provided"}`,
+      `Company: ${form.company || "Not provided"}`,
+      `Project Type: ${form.projectType}`,
+      `Budget: ${form.budget || "Not provided"}`,
+      `Deadline: ${form.deadline || "Not provided"}`,
+      "",
+      `Message: ${form.message}`
+    ].join("\n");
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    setStatus({ type: "success", message: "WhatsApp opened with your inquiry message." });
   };
 
   return (
