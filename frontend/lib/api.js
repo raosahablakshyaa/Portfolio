@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://portfolio-backend-jmkz.vercel.app/api";
+const BASE = (process.env.NEXT_PUBLIC_API_URL || "https://portfolio-backend-jmkz.vercel.app/api").replace(/\/+$/, "");
+const API_URL = BASE.endsWith("/api") ? BASE : `${BASE}/api`;
 
 export async function apiFetch(path, options = {}) {
   let response;
