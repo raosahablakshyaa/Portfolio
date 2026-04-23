@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://portfolio-backend-jmkz.vercel.app/api";
 
 export async function apiFetch(path, options = {}) {
   let response;
@@ -14,7 +14,7 @@ export async function apiFetch(path, options = {}) {
     });
   } catch (error) {
     throw new Error(
-      "Backend unreachable. Make sure the API server is running on http://localhost:5001 and then refresh this page."
+      `Backend unreachable. Could not connect to ${API_URL}. Please try again later.`
     );
   }
 
